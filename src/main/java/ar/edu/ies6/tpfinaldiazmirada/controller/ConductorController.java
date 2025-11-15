@@ -1,0 +1,109 @@
+package ar.edu.ies6.tpfinaldiazmirada.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
+
+import ar.edu.ies6.tpfinaldiazmirada.model.Conductor;
+import ar.edu.ies6.tpfinaldiazmirada.service.ConductorService;
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class ConductorController {
+
+    @Qualifier("servicioConductorBD")
+    @Autowired
+    ConductorService conductorService;
+
+     @GetMapping("/conductor")
+    public ModelAndView getConductor() {
+        ModelAndView carrito = new ModelAndView("conductor");
+
+        carrito.addObject("nuevoConductor", conductorService.crearNuevoConductor());
+        carrito.addObject("band", false);
+
+        return carrito;
+    }
+    
+
+     @PostMapping("/guardarConductor")
+    public ModelAndView saveConductor(@Valid @ModelAttribute("nuevoConductor") Conductor conductorParaGuardar, BindingResult result) {
+
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (result.hasErrors()) {
+
+            modelAndView.setViewName("conductor");
+            modelAndView.addObject("nuevoConductor", conductorParaGuardar);
+        } else {
+
+            try {
+                conductorService.agregarConductor(conductorParaGuardar);
+                modelAndView.setViewName("listaConductores");
+
+                modelAndView.addObject("correcto", "fue unexito");
+
+            } catch (Exception e) {
+                modelAndView.addObject("incorrecto", "maaal" + e.getMessage());
+            }
+
+            modelAndView.addObject("lista", conductorService.listarTodosConductoresActivos());
+            System.out.println("estoy saliendo");
+            
+        }
+
+        return modelAndView;
+
+        
+    }
+
+
+
+    @GetMapping("/eliminarConductor/{dni}")
+    public ModelAndView eliminarConductor(@PathVariable("dni") String dni) throws Exception {
+        ModelAndView eliminarConductor = new ModelAndView("listaConductores");
+        conductorService.borrarConductor(dni);
+        eliminarConductor.addObject("lista", conductorService.listarTodosConductoresActivos());
+
+        return eliminarConductor;
+    } 
+
+
+    @GetMapping("/modificarConductor/{dni}")
+    public ModelAndView buscarConductorParaModificar(@PathVariable("dni") String dni) throws Exception{
+        ModelAndView carritoParaModificarConductor = new ModelAndView("conductor");
+        carritoParaModificarConductor.addObject("nuevoConductor", conductorService.buscarUnConductor(dni));
+        carritoParaModificarConductor.addObject("band", true);
+
+        return carritoParaModificarConductor;
+
+    }
+
+    @PostMapping("/modificarConductor")
+    public ModelAndView modificarConductor(@ModelAttribute("nuevoConductor") Conductor conductorModificado) {
+        ModelAndView listadoEditado = new ModelAndView("listaConductor");
+        conductorService.agregarConductor(conductorModificado);
+        listadoEditado.addObject("lista", conductorService.listarTodosConductoresActivos());
+
+        
+        return listadoEditado;
+
+    }
+
+    @GetMapping("/listarConductores")
+    public ModelAndView listarConductoresActivos() {
+        ModelAndView carritoParaMostrarConductores = new ModelAndView("listaConductores");
+        carritoParaMostrarConductores.addObject("lista", conductorService.listarTodosConductoresActivos());
+
+        return carritoParaMostrarConductores;
+    }
+
+}

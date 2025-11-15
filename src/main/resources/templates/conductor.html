@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <nav id="navbar">
+            <img src="https://i.imgur.com/5b9KdhP.png" alt="Logo" class="logo">
+            <a href="/">Inicio</a>
+            <a href="">Usuarios </a>
+            <a href="/vehiculo" target="_blank" class="boton-enlace">Registro de Vehiculos</a>
+
+        </nav>
+    </header>
+
+
+    <main>
+
+        <div class="container mt-5">
+            <h2 class="text-white fw-bold text-center">
+                <i class="bi bi-person-circle"></i> REGISTRAR Conductor
+            </h2>
+            <hr>
+            <div class="card shadow p-4">
+
+                <form data-th-object="${nuevoConductor}" data-th-action="${band}?@{/modificarConductor}:@{/guardarConductor}"
+                    method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" class="form-control"
+                            placeholder="Ingrese el nombre el vehiculo" data-th-field="*{nombre}" minlength="5"
+                            maxlength="20" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellido</label>
+                        <input type="text" id="apellido" name="apellido" class="form-control"
+                            placeholder="Ingrese la apellido del veiculo" data-th-field="*{apellido}" required>
+                    </div>
+                    <span data-th-if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"
+                        class="text-danger">error apellido</span>
+
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Telefono</label>
+                        <input type="text" id="telefono" name="telefono" class="form-control"
+                            data-th-field="*{telefono}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edad" class="form-label">Edad</label>
+                        <input type="number" id="edad" name="edad" class="form-control" placeholder="Ingrese su edad"
+                            data-th-field="*{edad}" required data-th-readonly="${band}" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="dni" class="form-label">DNI</label>
+                        <input type="text" id="dni" name="dni" class="form-select"
+                            placeholder="Ingrese el nro de asientos disponibles" data-th-field="*{dni}">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" th:text="${band} ? 'modificar' : 'ingresar'"></button>
+                    <a href="/" class="btn btn-secondary">Volver</a>
+                </form>
+
+
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </main>
+
+    <footer>
+        <p>Derechos reservados &copy; 2025</p>
+    </footer>
+
+</body>
+
+</html>
