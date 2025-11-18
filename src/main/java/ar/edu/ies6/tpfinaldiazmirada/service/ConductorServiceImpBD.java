@@ -45,8 +45,9 @@ public class ConductorServiceImpBD implements ConductorService {
     }
 
     @Override
-    public Conductor buscarUnConductor(String id) throws Exception {
-        return conductorRepository.findById(id).orElseThrow(()-> new Exception("Conductor no encontrado"));
+    public Conductor buscarUnConductor(String dni) throws Exception {
+        return conductorRepository.findById(dni).orElseThrow(()-> new Exception("Conductor no encontrado"));
+        
     }
 
     @Override

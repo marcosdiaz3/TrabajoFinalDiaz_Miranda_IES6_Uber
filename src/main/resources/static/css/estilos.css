@@ -36,14 +36,14 @@ nav {
 
 nav a {
     color: white; 
-    padding: 10px;
+    padding: 5px;
     text-decoration: none; 
-    font-size: 16px;
+    font-size: 13px;
     text-transform: uppercase;
     margin: 0 15px; 
     transition: background-color 0.3s;
     line-height: 200%; 
-    border-radius: 10px;
+    border-radius: 15px;
     
 }
 

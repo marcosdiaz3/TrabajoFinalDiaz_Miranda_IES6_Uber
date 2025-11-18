@@ -6,12 +6,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Component
 @Entity
 public class Conductor {
 
     @Id
+    @Column
+    @NotBlank(message="dni es requerido")
+    @NotNull(message="dni is required")
+    @Size(min = 4, max = 8, message="dni is requiredo")
     private String dni;
     @Column
     private String nombre;

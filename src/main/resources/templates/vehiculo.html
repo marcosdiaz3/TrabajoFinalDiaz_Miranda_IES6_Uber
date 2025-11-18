@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -27,7 +27,7 @@
 
         <div class="container mt-5">
             <h2 class="text-white fw-bold text-center">
-                <i class="bi bi-person-circle"></i> REGISTRAR Vehiculo
+                <i class="bi bi-person-circle"></i> REGISTRAR VEHICULO
             </h2>
             <hr>
             <div class="card shadow p-4">
@@ -38,11 +38,11 @@
                     <div class="mb-3">
                         <label for="modelo" class="form-label">Modelo</label>
                         <input type="text" id="modelo" name="modelo" class="form-control"
-                            placeholder="Ingrese el modelo el vehiculo" data-th-field="*{modelo}" minlength="5"
+                            placeholder="Ingrese el modelo el vehiculo" data-th-field="*{modelo}" minlength="2"
                             maxlength="20" />
                     </div>
                     <div class="mb-3">
-                        <label for="marca" class="form-label">marca</label>
+                        <label for="marca" class="form-label">Marca</label>
                         <input type="text" id="marca" name="marca" class="form-control"
                             placeholder="Ingrese la marca del veiculo" data-th-field="*{marca}" required>
                     </div>
@@ -50,9 +50,18 @@
                         marca</span>
 
                     <div class="mb-3">
-                        <label for="tipoVehiculo" class="form-label">Tipo de Vehiculo</label>
-                        <input type="text" id="tipoVehiculo" name="tipoVehiculo" class="form-control"
-                            data-th-field="*{tipoVehiculo}">
+                        <label for="tipoDeVehiculo" class="form-label">Tipo de Vehículo</label>
+                        <select id="tipoDeVehiculo" name="tipoDeVehiculo" class="form-select"
+                            data-th-field="*{tipoDeVehiculo}">
+                            <option value="" disabled selected>Seleccione tipo</option>
+
+                            <option value="X" th:selected="${nuevoVehiculo.tipoDeVehiculo == 'X'}">X</option>
+
+                            <option value="LUXE" th:selected="${nuevoVehiculo.tipoDeVehiculo == 'LUXE'}">LUXE</option>
+
+                            <option value="PREMIUM" th:selected="${nuevoVehiculo.tipoDeVehiculo == 'PREMIUM'}">PREMIUM
+                            </option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -60,6 +69,15 @@
                         <input type="text" id="patente" name="patente" class="form-control"
                             placeholder="Ingrese su patente" data-th-field="*{patente}" required
                             data-th-readonly="${band}" />
+                    </div>
+
+                      <div class="mb-3">
+                        <label for="dniConductor" class="form-label"> Conductores </label>
+                        <select id="dniConductor" name="dniConductor" class="form-select" > 
+                            <option value=""> Seleccionar Conductor ... </option>
+                            <option th:each="c : ${clista}" th:value="${c.dni}" th:text="${c.nombre + ' ' + c.apellido}"></option>
+
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -74,7 +92,7 @@
                             placeholder="Ingrese el nro de asientos disponibles" data-th-field="*{asientos}">
                     </div>
 
-                    <button type="submit" class="btn btn-primary" th:text="${band} ? 'modificar' : 'ingresar'"></button>
+                    <button type="submit" class="btn btn-primary" th:text="${band} ? 'modificar' : 'Ingresar'"></button>
                     <a href="/" class="btn btn-secondary">Volver</a>
                 </form>
 

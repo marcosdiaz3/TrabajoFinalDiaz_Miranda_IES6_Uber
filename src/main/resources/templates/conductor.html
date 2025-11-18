@@ -27,7 +27,7 @@
 
         <div class="container mt-5">
             <h2 class="text-white fw-bold text-center">
-                <i class="bi bi-person-circle"></i> REGISTRAR Conductor
+                <i class="bi bi-person-circle"></i> REGISTRAR CONDUCTOR
             </h2>
             <hr>
             <div class="card shadow p-4">
@@ -37,13 +37,13 @@
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" id="nombre" name="nombre" class="form-control"
-                            placeholder="Ingrese el nombre el vehiculo" data-th-field="*{nombre}" minlength="5"
+                            placeholder="Ingrese su nombre completo" data-th-field="*{nombre}" minlength="5"
                             maxlength="20" />
                     </div>
                     <div class="mb-3">
                         <label for="apellido" class="form-label">Apellido</label>
                         <input type="text" id="apellido" name="apellido" class="form-control"
-                            placeholder="Ingrese la apellido del veiculo" data-th-field="*{apellido}" required>
+                            placeholder="Ingrese su apellido completo" data-th-field="*{apellido}" required>
                     </div>
                     <span data-th-if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"
                         class="text-danger">error apellido</span>
@@ -63,10 +63,10 @@
                     <div class="mb-3">
                         <label for="dni" class="form-label">DNI</label>
                         <input type="text" id="dni" name="dni" class="form-select"
-                            placeholder="Ingrese el nro de asientos disponibles" data-th-field="*{dni}">
+                            placeholder="Ingrese su DNI sin puntos" data-th-field="*{dni}" required>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary" th:text="${band} ? 'modificar' : 'ingresar'"></button>
+                    <button type="submit" class="btn btn-primary" th:text="${band} ? 'modificar' : 'Ingresar'"></button>
                     <a href="/" class="btn btn-secondary">Volver</a>
                 </form>
 

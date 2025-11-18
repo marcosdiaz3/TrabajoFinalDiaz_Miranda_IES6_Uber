@@ -20,14 +20,14 @@ public class Vehiculo {
     @Column
     @NotBlank(message="patente es requerido")
     @NotNull(message="patente is required")
-    @Size(min = 4, max = 10, message="patente is requiredo")
+    @Size(min = 4, max = 6, message="patente is requiredo")
     private String patente;
     @Column
     private String modelo;
     @Column
     private String marca;
-    @Column
-    private String tipoVehiculo;
+    //@Column
+    //private String tipoVehiculo;
     @Column
     private String color;
     @Column
@@ -35,11 +35,12 @@ public class Vehiculo {
     @Column
     private Boolean estado;
 
+    @Column 
     @Enumerated(EnumType.STRING)
-    private TipoDeVehiculo tipodDeVehiculo;
+    private TipoDeVehiculo tipoDeVehiculo;
 
     @OneToOne
-    @JoinColumn(name = "dni")
+    @JoinColumn(name = "dni_Conductor", referencedColumnName = "dni")
     private Conductor conductor;
 
     public enum TipoDeVehiculo {
@@ -53,16 +54,17 @@ public class Vehiculo {
     }
 
     
-    public Vehiculo(String patente, String modelo, String marca, String tipoVehiculo, String color,
+    public Vehiculo(String patente, String modelo, String marca, TipoDeVehiculo tipoDeVehiculo, String color,
             Integer asientos, Boolean estado) {
         //this.id = id;
         this.patente = patente;
         this.modelo = modelo;
         this.marca = marca;
-        this.tipoVehiculo = tipoVehiculo;
+        this.tipoDeVehiculo = tipoDeVehiculo;
         this.color = color;
         this.asientos = asientos;
         this.estado = estado;
+        //this.conductor = conductor;
     }
 
 
@@ -103,14 +105,14 @@ public class Vehiculo {
 
 
 
-    public String getTipoVehiculo() {
-        return tipoVehiculo;
+    public TipoDeVehiculo getTipoDeVehiculo() {
+        return tipoDeVehiculo;
     }
 
 
 
-    public void setTipoVehiculo(String tipoVehiculo) {
-        this.tipoVehiculo = tipoVehiculo;
+    public void setTipoDeVehiculo(TipoDeVehiculo tipoDeVehiculo) {
+        this.tipoDeVehiculo = tipoDeVehiculo;
     }
 
 
@@ -148,5 +150,17 @@ public class Vehiculo {
     public void setEstado(Boolean estado) {
         this.estado = estado;
     }
+
+
+
+   public Conductor getConductor() {
+       return conductor;
+    }
+
+
+    public void setConductor(Conductor conductor) {
+      this.conductor = conductor;
+    }
+
 
 }
