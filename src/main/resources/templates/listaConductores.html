@@ -50,8 +50,8 @@
             <td th:text="${c.edad}"></td>
             <td th:text="${c.dni}"></td>
             <td>
-                <a data-th-href="@{'/eliminarConductor/'+${c.dni}|}" class="btn btn-danger">Borrar</a>
-                <a data-th-href="@{'/modificarConductor/'+${c.dni}|}" class="btn btn-primary btn-sm">Editar</a>
+                <a data-th-href="@{'/eliminarConductor/'+${c.id}|}" class="btn btn-danger">Borrar</a>
+                <a data-th-href="@{'/modificarConductor/'+${c.id}|}" class="btn btn-primary">Editar</a>
             </td>
         </tr>
         </tbody>

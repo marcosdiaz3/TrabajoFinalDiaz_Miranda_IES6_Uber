@@ -53,7 +53,7 @@
                         <label for="tipoDeVehiculo" class="form-label">Tipo de Vehículo</label>
                         <select id="tipoDeVehiculo" name="tipoDeVehiculo" class="form-select"
                             data-th-field="*{tipoDeVehiculo}">
-                            <option value="" disabled selected>Seleccione tipo</option>
+                            <option value="Tipos .." disabled selected>Seleccione tipo</option>
 
                             <option value="X" th:selected="${nuevoVehiculo.tipoDeVehiculo == 'X'}">X</option>
 
@@ -68,14 +68,15 @@
                         <label for="patente" class="form-label">Patente</label>
                         <input type="text" id="patente" name="patente" class="form-control"
                             placeholder="Ingrese su patente" data-th-field="*{patente}" required
-                            data-th-readonly="${band}" />
+                            data-th-readonly="${band}" minlength="6"
+                            maxlength="7"/>
                     </div>
 
                       <div class="mb-3">
-                        <label for="dniConductor" class="form-label"> Conductores </label>
-                        <select id="dniConductor" name="dniConductor" class="form-select" > 
+                        <label for="conductor" class="form-label"> Conductores </label>
+                        <select id="conductor.id" name="conductor.id" class="form-select" > 
                             <option value=""> Seleccionar Conductor ... </option>
-                            <option th:each="c : ${clista}" th:value="${c.dni}" th:text="${c.nombre + ' ' + c.apellido}"></option>
+                            <option th:each="c : ${clista}" th:value="${c.id}" th:text="${c.nombre + ' ' + c.apellido}"></option>
 
                         </select>
                     </div>

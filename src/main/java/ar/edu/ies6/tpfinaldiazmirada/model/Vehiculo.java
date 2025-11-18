@@ -40,9 +40,9 @@ public class Vehiculo {
     private TipoDeVehiculo tipoDeVehiculo;
 
     @OneToOne
-    @JoinColumn(name = "dni_Conductor", referencedColumnName = "dni")
+    @JoinColumn(name = "id_Conductor")
     private Conductor conductor;
-
+ //referencedColumnName = "id"
     public enum TipoDeVehiculo {
         X,
         LUXE,

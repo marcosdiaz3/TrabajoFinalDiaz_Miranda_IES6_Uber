@@ -67,20 +67,20 @@ public class ConductorController {
 
 
 
-    @GetMapping("/eliminarConductor/{dni}")
-    public ModelAndView eliminarConductor(@PathVariable("dni") String dni) throws Exception {
+    @GetMapping("/eliminarConductor/{id}")
+    public ModelAndView eliminarConductor(@PathVariable("id") Integer id) throws Exception {
         ModelAndView eliminarConductor = new ModelAndView("listaConductores");
-        conductorService.borrarConductor(dni);
+        conductorService.borrarConductor(id);
         eliminarConductor.addObject("clista", conductorService.listarTodosConductoresActivos());
 
         return eliminarConductor;
     } 
 
 
-    @GetMapping("/modificarConductor/{dni}")
-    public ModelAndView buscarConductorParaModificar(@PathVariable("dni") String dni) throws Exception{
+    @GetMapping("/modificarConductor/{id}")
+    public ModelAndView buscarConductorParaModificar(@PathVariable("id") Integer id) throws Exception{
         ModelAndView carritoParaModificarConductor = new ModelAndView("conductor");
-        carritoParaModificarConductor.addObject("nuevoConductor", conductorService.buscarUnConductor(dni));
+        carritoParaModificarConductor.addObject("nuevoConductor", conductorService.buscarUnConductor(id));
         carritoParaModificarConductor.addObject("band", true);
 
         return carritoParaModificarConductor;

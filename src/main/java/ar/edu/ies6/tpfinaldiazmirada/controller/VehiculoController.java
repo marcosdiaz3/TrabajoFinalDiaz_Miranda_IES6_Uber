@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
-//import ar.edu.ies6.tpfinaldiazmirada.model.Conductor;
+import ar.edu.ies6.tpfinaldiazmirada.model.Conductor;
 import ar.edu.ies6.tpfinaldiazmirada.model.Vehiculo;
-//import ar.edu.ies6.tpfinaldiazmirada.service.ConductorService;
+import ar.edu.ies6.tpfinaldiazmirada.service.ConductorService;
 import ar.edu.ies6.tpfinaldiazmirada.service.VehiculoService;
 import jakarta.validation.Valid;
 
@@ -28,9 +28,9 @@ public class VehiculoController {
     @Autowired
     VehiculoService vehiculoService;
 
-    //@Autowired
-    //@Qualifier("servicioConductorBD")
-    //ConductorService conductorService;
+    @Autowired
+    @Qualifier("servicioConductorBD")
+    ConductorService conductorService;
 
 
     @GetMapping("/vehiculo")
@@ -38,7 +38,7 @@ public class VehiculoController {
         ModelAndView carrito = new ModelAndView("vehiculo");
 
         carrito.addObject("nuevoVehiculo", vehiculoService.crearNuevoVehiculo());
-        //carrito.addObject("clista", conductorService.listarTodosConductoresActivos());
+        carrito.addObject("clista", conductorService.listarTodosConductoresActivos());
         carrito.addObject("band", false);
 
 
@@ -47,7 +47,7 @@ public class VehiculoController {
 
 
    @PostMapping("/guardarVehiculo")
-    public ModelAndView saveVehiculo(@Valid @ModelAttribute("nuevoVehiculo") Vehiculo vehiculoParaGuardar, BindingResult result, @RequestParam("dniConductor") String dniConductor) {
+    public ModelAndView saveVehiculo(@Valid @ModelAttribute("nuevoVehiculo") Vehiculo vehiculoParaGuardar, BindingResult result) {
 
         System.out.println("estoy entrando - Vehiculo");
         ModelAndView modelAndView = new ModelAndView();
@@ -57,7 +57,7 @@ public class VehiculoController {
             modelAndView.setViewName("vehiculo");
             modelAndView.addObject("nuevoVehiculo", vehiculoParaGuardar);
 
-            //modelAndView.addObject("clista", conductorService.listarTodosConductoresActivos());
+            modelAndView.addObject("clista", conductorService.listarTodosConductoresActivos());
         } else {
 
             try {
@@ -97,7 +97,7 @@ public class VehiculoController {
         carritoParaModificarVehiculo.addObject("nuevoVehiculo", vehiculoService.buscarUnVehiculo(patente));
         carritoParaModificarVehiculo.addObject("band", true);
 
-        //carritoParaModificarVehiculo.addObject("clista", conductorService.listarTodosConductoresActivos());
+        carritoParaModificarVehiculo.addObject("clista", conductorService.listarTodosConductoresActivos());
 
         return carritoParaModificarVehiculo;
 
