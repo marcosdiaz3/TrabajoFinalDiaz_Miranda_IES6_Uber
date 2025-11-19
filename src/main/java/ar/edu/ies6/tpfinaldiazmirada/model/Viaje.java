@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
+import ar.edu.ies6.tpfinaldiazmirada.model.Vehiculo.TipoDeVehiculo;
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,10 +32,12 @@ public class Viaje {
     private TipViaje tipViaje;
 
     @Column
-    private double costoViaje;
+    private Double precioFinal;
 
     @Column
-    private LocalDate fechaViaje;
+    @Enumerated(EnumType.STRING)
+    private Vehiculo.TipoDeVehiculo tipoDeVehiculo;
+
 
     // MUCHOS viajes → 1 usuario
     @ManyToOne(fetch = FetchType.LAZY)
@@ -58,11 +61,11 @@ public class Viaje {
 
     public Viaje() {}
 
-    public Viaje(Integer id, boolean estado, double costoViaje, LocalDate fechaViaje) {
+    public Viaje(Integer id, boolean estado, double precioFinal, Vehiculo.TipoDeVehiculo tipoDeVehiculo) {
         this.id = id;
         this.estado = estado;
-        this.costoViaje = costoViaje;
-        this.fechaViaje = fechaViaje;
+        this.precioFinal = precioFinal;
+        this.tipoDeVehiculo = tipoDeVehiculo;
     }
 
     public Integer getId() { return id; }
@@ -71,11 +74,13 @@ public class Viaje {
     public boolean isEstado() { return estado; }
     public void setEstado(boolean estado) { this.estado = estado; }
 
-    public double getCostoViaje() { return costoViaje; }
-    public void setCostoViaje(double costoViaje) { this.costoViaje = costoViaje; }
+    public double getPrecioFinal() { return precioFinal; }
+    public void setPrecioFinal(double precioFinal) { this.precioFinal = precioFinal; }
 
-    public LocalDate getFechaViaje() { return fechaViaje; }
-    public void setFechaViaje(LocalDate fechaViaje) { this.fechaViaje = fechaViaje; }
+    public TipoDeVehiculo getTipoDeVehiculo() { return tipoDeVehiculo; }
+
+    public void setTipoDeVehiculo(TipoDeVehiculo tipoDeVehiculo) { this.tipoDeVehiculo = tipoDeVehiculo; }
+
 
     public TipViaje getTipViaje() { return tipViaje; }
     public void setTipViaje(TipViaje tipViaje) { this.tipViaje = tipViaje; }
