@@ -21,7 +21,7 @@ public class UsuarioServiceImpBD implements UsuarioService{
     @Override
 
     public void borrarUsuario(String dni) throws Exception {
-        Usuario usuarioBorrar = usuarioRepository.findById(dni).orElseThrow(()-> new Exception("usuario no encontrado"));
+Usuario usuarioBorrar = usuarioRepository.findById(dni).orElseThrow(()-> new Exception("usuario no encontrado"));
     usuarioBorrar.setEstado(false);
     usuarioRepository.save(usuarioBorrar);
       //  alumnoRepository.deleteById(dni);
@@ -31,10 +31,6 @@ public class UsuarioServiceImpBD implements UsuarioService{
     public void agregarUsuario(Usuario usuario) {
         usuario.setEstado(true);
     usuarioRepository.save(usuario);
-
-
-
-    
     }
 
     @Override

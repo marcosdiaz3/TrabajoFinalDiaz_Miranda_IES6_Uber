@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Precio del Viaje</title>
+</head>
+<body>
+
+<h2>Precio calculado del Viaje</h2>
+
+<p>ID: <span th:text="${viaje.id}"></span></p>
+<p>Costo original: <span th:text="${viaje.costoViaje}"></span></p>
+<p>Tipo de viaje: <span th:text="${viaje.tipViaje}"></span></p>
+<p><strong>Precio final: </strong> <span th:text="${precioFinal}"></span></p>
+
+</body>
+</html>

@@ -16,22 +16,27 @@ import jakarta.validation.constraints.Size;
 @Component
 @Entity
 public class Vehiculo {
+
     @Id
     @Column
     @NotBlank(message="patente es requerido")
     @NotNull(message="patente is required")
     @Size(min = 4, max = 7, message="patente is requiredo")
     private String patente;
+
     @Column
     private String modelo;
+
     @Column
     private String marca;
     //@Column
     //private String tipoVehiculo;
     @Column
     private String color;
+
     @Column
     private Integer asientos;
+
     @Column
     private Boolean estado;
 
@@ -48,7 +53,6 @@ public class Vehiculo {
         LUXE,
         PREMIUM
     }
-
 
     public Vehiculo() {
     }
@@ -67,37 +71,25 @@ public class Vehiculo {
         //this.conductor = conductor;
     }
 
-
-
     public String getPatente() {
         return patente;
     }
-
-
 
     public void setPatente(String patente) {
         this.patente = patente;
     }
 
-
-
     public String getModelo() {
         return modelo;
     }
-
-
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
 
-
-
     public String getMarca() {
         return marca;
     }
-
-
 
     public void setMarca(String marca) {
         this.marca = marca;
@@ -115,37 +107,25 @@ public class Vehiculo {
         this.tipoDeVehiculo = tipoDeVehiculo;
     }
 
-
-
     public String getColor() {
         return color;
     }
-
-
 
     public void setColor(String color) {
         this.color = color;
     }
 
-
-
     public Integer getAsientos() {
         return asientos;
     }
-
-
 
     public void setAsientos(Integer asientos) {
         this.asientos = asientos;
     }
 
-
-
     public Boolean isEstado() {
         return estado;
     }
-
-
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
