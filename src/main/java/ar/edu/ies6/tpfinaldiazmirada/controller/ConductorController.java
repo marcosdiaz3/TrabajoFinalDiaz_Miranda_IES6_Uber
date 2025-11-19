@@ -43,16 +43,19 @@ public class ConductorController {
 
             modelAndView.setViewName("conductor");
             modelAndView.addObject("nuevoConductor", conductorParaGuardar);
+
+            modelAndView.addObject("incorrecto", " No se pudo Guardar el Conductor. ");
+            System.out.println("NO PASA - Conductor");
         } else {
 
             try {
                 conductorService.agregarConductor(conductorParaGuardar);
                 modelAndView.setViewName("listaConductores");
 
-                modelAndView.addObject("correcto", "El Conductor se Guardo con exito");
+                modelAndView.addObject("correcto", " El Conductor se Guardo con exito.");
 
             } catch (Exception e) {
-                modelAndView.addObject("incorrecto", "El Conductor no se Guardo" + e.getMessage());
+                modelAndView.addObject("incorrectoS", "El Conductor no se Guardo" + e.getMessage());
             }
 
             modelAndView.addObject("clista", conductorService.listarTodosConductoresActivos());
@@ -106,4 +109,9 @@ public class ConductorController {
         return carritoParaMostrarConductores;
     }
 
+
+    @GetMapping("/index")
+    public String getIndex() {
+        return "index";
+    }
 }

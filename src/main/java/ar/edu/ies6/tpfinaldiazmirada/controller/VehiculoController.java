@@ -58,16 +58,18 @@ public class VehiculoController {
             modelAndView.addObject("nuevoVehiculo", vehiculoParaGuardar);
 
             modelAndView.addObject("clista", conductorService.listarTodosConductoresActivos());
+            modelAndView.addObject("incorrecto", " La Patente es invalida. ");
+            System.out.println("NO PASA - Vehiculo");
         } else {
 
             try {
                 vehiculoService.agregarVehiculo(vehiculoParaGuardar);
                 modelAndView.setViewName("listaVehiculos");
 
-                modelAndView.addObject("correcto", "El Vehiculo se Guardo con exito");
+                modelAndView.addObject("correcto", " El Vehiculo se Guardo con exito.");
 
             } catch (Exception e) {
-                modelAndView.addObject("incorrecto", "El Vehiculo no se Guardo" + e.getMessage());
+                modelAndView.addObject("incorrectoS", "El Vehiculo no se Guardo" + e.getMessage());
             }
 
             // alumnoService.agregarAlumno(alumnoParaGuardar);

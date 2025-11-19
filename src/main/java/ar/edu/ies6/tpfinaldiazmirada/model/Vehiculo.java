@@ -20,7 +20,7 @@ public class Vehiculo {
     @Column
     @NotBlank(message="patente es requerido")
     @NotNull(message="patente is required")
-    @Size(min = 4, max = 6, message="patente is requiredo")
+    @Size(min = 4, max = 7, message="patente is requiredo")
     private String patente;
     @Column
     private String modelo;
@@ -40,9 +40,9 @@ public class Vehiculo {
     private TipoDeVehiculo tipoDeVehiculo;
 
     @OneToOne
-    @JoinColumn(name = "id_Conductor")
+    @JoinColumn(name = "id_Conductor", referencedColumnName = "id")
     private Conductor conductor;
- //referencedColumnName = "id"
+    
     public enum TipoDeVehiculo {
         X,
         LUXE,
