@@ -1,10 +1,13 @@
 package ar.edu.ies6.tpfinaldiazmirada.model;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Component
 @Entity
@@ -22,6 +25,13 @@ public class Usuario {
     private String correo; 
     @Column
     private boolean estado;
+    
+
+
+@OneToMany(mappedBy = "usuario")
+private List<Viaje> viajes;
+
+
     
 
 
@@ -83,6 +93,16 @@ public boolean isEstado() {
 
 public void setEstado(boolean estado) {
     this.estado = estado;
+}
+
+
+public List<Viaje> getViajes() {
+    return viajes;
+}
+
+
+public void setViajes(List<Viaje> viajes) {
+    this.viajes = viajes;
 }
 
 
