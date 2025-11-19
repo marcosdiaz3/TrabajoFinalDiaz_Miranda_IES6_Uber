@@ -60,22 +60,21 @@ public class ViajeServiceImpBD implements ViajeService {
 
    
     @Override
-public double calcularPrecioFinal(Viaje viaje, String tipo) {
+public double calcularPrecioFinal(Viaje.TipViaje tipViaje, Vehiculo.TipoDeVehiculo tipoDeVehiculo) {
 
-    // Ejemplo básico (ajustá según tu lógica)
-    double precioBase = viaje.getCostoViaje();
+    double base = switch (tipViaje) {
+        case CORTO -> 7000;
+        case MEDIO -> 15000;
+        case LARGO -> 20000;
+    };
 
-    switch (tipo.toUpperCase()) {
-        case "AUTO":
-            return precioBase * 1.1;
-        case "CAMIONETA":
-            return precioBase * 1.2;
-        case "MOTO":
-            return precioBase * 1.05;
-        default:
-            return precioBase;
-    }
+   double extra = switch (tipoDeVehiculo) {
+        case X -> 0;
+        case LUXE -> 0.10;
+        case PREMIUM -> 0.20;
+    };
+
+    return base + (base*extra);
 }
-
 
 }

@@ -14,6 +14,6 @@ public interface ViajeService {
     public Viaje crearNuevoViaje();
     public List<Viaje> listarViajesActivos();
 
-    public double calcularPrecioFinal(Viaje viaje, String tipo);
+    public double calcularPrecioFinal(Viaje.TipViaje tipViaje, Vehiculo.TipoDeVehiculo tipoDeVehiculo);
 
 }

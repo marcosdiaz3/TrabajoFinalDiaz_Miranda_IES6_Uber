@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.ies6.tpfinaldiazmirada.model.Vehiculo;
 import ar.edu.ies6.tpfinaldiazmirada.model.Viaje;
 import ar.edu.ies6.tpfinaldiazmirada.service.UsuarioService;
 import ar.edu.ies6.tpfinaldiazmirada.service.VehiculoService;
@@ -23,7 +24,7 @@ public class ViajeController {
     @Autowired
     VehiculoService vehiculoService;
 
-    @Qualifier("servicioUsuarioMySQL")
+    @Qualifier("servicioUsuarioMysql")
     @Autowired
     UsuarioService usuarioService;
 
@@ -45,10 +46,37 @@ public class ViajeController {
     @PostMapping("/guardarViaje")
     public ModelAndView guardarViaje(@ModelAttribute("nuevoViaje") Viaje viajeParaGuardar) {
 
-        ModelAndView modelAndView = new ModelAndView("index");
+        ModelAndView modelAndView = new ModelAndView("precioViaje");
 
         try {
-            viajeService.agregarViaje(viajeParaGuardar);
+            // 1. Buscar el vehículo real en la BD
+        Vehiculo vehiculoReal = vehiculoService.buscarUnVehiculo(
+                viajeParaGuardar.getVehiculo().getPatente()
+        );
+
+        // 2. Asociarlo al viaje
+        viajeParaGuardar.setVehiculo(vehiculoReal);
+
+        // 3. Copiar el tipo de vehículo EN el objeto Viaje
+        viajeParaGuardar.setTipoDeVehiculo(vehiculoReal.getTipoDeVehiculo());
+
+        // 4. Calcular el precio final usando los valores correctos
+        double precioFinal = viajeService.calcularPrecioFinal(
+                viajeParaGuardar.getTipViaje(),
+                viajeParaGuardar.getTipoDeVehiculo()
+        );
+
+        // Guardarlo en el viaje antes de guardar en BD
+        viajeParaGuardar.setPrecioFinal(precioFinal);
+
+        // Guardar el viaje ya con el precio
+        viajeService.agregarViaje(viajeParaGuardar);
+
+        // ENVÍO DE OBJETOS A LA VISTA
+        modelAndView.addObject("viaje", viajeParaGuardar);
+        modelAndView.addObject("vehiculo", viajeParaGuardar.getVehiculo());
+        modelAndView.addObject("precioFinal", precioFinal);
+
         } catch (Exception e) {
             modelAndView.addObject("errorViaje", "Error al guardar el viaje: " + e.getMessage());
         }
@@ -62,20 +90,19 @@ public ModelAndView calcularPrecio(@PathVariable Integer id) throws Exception {
 
     ModelAndView vista = new ModelAndView("precioViaje");
 
+    //buscar el viaje por id
     Viaje viaje = viajeService.buscarViaje(id);
 
     // Intentamos obtener el tipo del vehículo sin importar cómo se llame el getter
-    String tipo;
+    String tipo ="DESCONOCIDO";
 
-    try {
+    if (viaje.getVehiculo() != null && viaje.getVehiculo().getTipoDeVehiculo() != null) {
+
         // Si existe getTipoVehiculo()
-        tipo = viaje.getVehiculo().getTipoVehiculo();
-    } catch (Exception e) {
-        // Si existe getTipoDeVehiculo()
-        tipo = viaje.getVehiculo().getTipoVehiculo();
+        tipo = viaje.getVehiculo().getTipoDeVehiculo().name();
     }
 
-    double precioFinal = viajeService.calcularPrecioFinal(viaje, tipo);
+    double precioFinal = viajeService.calcularPrecioFinal(null, null);
 
     vista.addObject("viaje", viaje);
     vista.addObject("precioFinal", precioFinal);
