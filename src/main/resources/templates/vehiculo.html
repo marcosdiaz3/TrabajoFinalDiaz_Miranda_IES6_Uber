@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -12,22 +12,22 @@
 
 <body>
 
-    <header>
-        <nav id="navbar">
-            <img src="https://i.imgur.com/5b9KdhP.png" alt="Logo" class="logo">
-            <a href="/">Inicio</a>
-            <a href="">Usuarios </a>
-            <a href="/vehiculo" target="_blank" class="boton-enlace">Registro de Vehiculos</a>
-
-        </nav>
-    </header>
-
-
+    <div data-th-replace="~{layout :: header}"></div>
     <main>
 
         <div class="container mt-5">
+
+            <div data-th-if="${incorrecto}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>ERROR.</strong>
+            <span th:text="${incorrecto}"></span>
+            Inténtelo nuevamente.
+            <!--<strong>ERROR</strong> No se pudo guardar el conductor/vehículo. Inténtelo nuevamente.-->
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
             <h2 class="text-white fw-bold text-center">
-                <i class="bi bi-person-circle"></i> REGISTRAR Vehiculo
+                <i class="bi bi-person-circle"></i> REGISTRAR VEHICULO
             </h2>
             <hr>
             <div class="card shadow p-4">
@@ -35,46 +35,68 @@
                 <form data-th-object="${nuevoVehiculo}"
                     data-th-action="${band}?@{/modificarVehiculo}:@{/guardarVehiculo}" method="post"
                     enctype="multipart/form-data">
+
                     <div class="mb-3">
                         <label for="modelo" class="form-label">Modelo</label>
                         <input type="text" id="modelo" name="modelo" class="form-control"
-                            placeholder="Ingrese el modelo el vehiculo" data-th-field="*{modelo}" minlength="5"
-                            maxlength="20" />
+                            placeholder="Ingrese el modelo el vehiculo" data-th-field="*{modelo}" minlength="2"
+                            maxlength="20" pattern="[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s]+" title="Solo letras, números y espacios"/>
                     </div>
+
                     <div class="mb-3">
-                        <label for="marca" class="form-label">marca</label>
+                        <label for="marca" class="form-label">Marca</label>
                         <input type="text" id="marca" name="marca" class="form-control"
-                            placeholder="Ingrese la marca del veiculo" data-th-field="*{marca}" required>
+                            placeholder="Ingrese la marca del veiculo" data-th-field="*{marca}" required pattern="[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s]+" title="Solo letras, números y espacios">
                     </div>
                     <span data-th-if="${#fields.hasErrors('marca')}" th:errors="*{marca}" class="text-danger">error
                         marca</span>
 
                     <div class="mb-3">
-                        <label for="tipoVehiculo" class="form-label">Tipo de Vehiculo</label>
-                        <input type="text" id="tipoVehiculo" name="tipoVehiculo" class="form-control"
-                            data-th-field="*{tipoVehiculo}">
+                        <label for="tipoDeVehiculo" class="form-label">Tipo de Vehículo</label>
+                        <select id="tipoDeVehiculo" name="tipoDeVehiculo" class="form-select"
+                            data-th-field="*{tipoDeVehiculo}">
+                            <option value="Tipos .." disabled selected>Seleccione tipo</option>
+
+                            <option value="X" th:selected="${nuevoVehiculo.tipoDeVehiculo == 'X'}">X</option>
+
+                            <option value="LUXE" th:selected="${nuevoVehiculo.tipoDeVehiculo == 'LUXE'}">LUXE</option>
+
+                            <option value="PREMIUM" th:selected="${nuevoVehiculo.tipoDeVehiculo == 'PREMIUM'}">PREMIUM
+                            </option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="patente" class="form-label">Patente</label>
                         <input type="text" id="patente" name="patente" class="form-control"
                             placeholder="Ingrese su patente" data-th-field="*{patente}" required
-                            data-th-readonly="${band}" />
+                            data-th-readonly="${band}" minlength="6"
+                            maxlength="7" pattern="[A-Z]{2}[0-9]{3}[A-Z]{2}" title="Formato válido: AA123BB"/>
+                            <!-- pattern="[A-Z]{2}[0-9]{3}[A-Z]{2}" -->
+                    </div>
+
+                      <div class="mb-3">
+                        <label for="conductor" class="form-label"> Conductores </label>
+                        <select id="conductor.id" name="conductor.id" class="form-select" > 
+                            <option value=""> Seleccionar Conductor ... </option>
+                            <option th:each="c : ${clista}" th:value="${c.id}" th:text="${c.nombre + ' ' + c.apellido}"></option>
+
+                        </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="color" class="form-label">Color</label>
                         <input type="text" id="color" name="color" class="form-select"
-                            placeholder="Ingrese el color del vehiculo" data-th-field="*{color}">
+                            placeholder="Ingrese el color del vehiculo" data-th-field="*{color}" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo letras y espacios">
                     </div>
 
                     <div class="mb-3">
                         <label for="asientos" class="form-label">Asientos</label>
                         <input type="number" id="asientos" name="asientos" class="form-select"
-                            placeholder="Ingrese el nro de asientos disponibles" data-th-field="*{asientos}">
+                            placeholder="Ingrese el nro de asientos disponibles" data-th-field="*{asientos}" min="1" max="5" title="Debe tener entre 1 y 5 asientos disponibles">
                     </div>
 
-                    <button type="submit" class="btn btn-primary" th:text="${band} ? 'modificar' : 'ingresar'"></button>
+                    <button type="submit" class="btn btn-primary" th:text="${band} ? 'modificar' : 'Ingresar'"></button>
                     <a href="/" class="btn btn-secondary">Volver</a>
                 </form>
 

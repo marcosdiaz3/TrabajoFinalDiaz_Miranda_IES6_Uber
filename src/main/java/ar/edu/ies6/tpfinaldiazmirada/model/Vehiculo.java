@@ -19,9 +19,9 @@ public class Vehiculo {
 
     @Id
     @Column
-    @NotBlank(message = "patente es requerido")
-    @NotNull(message = "patente is required")
-    @Size(min = 4, max = 10, message = "patente is requiredo")
+    @NotBlank(message="patente es requerido")
+    @NotNull(message="patente is required")
+    @Size(min = 4, max = 7, message="patente is requiredo")
     private String patente;
 
     @Column
@@ -29,10 +29,8 @@ public class Vehiculo {
 
     @Column
     private String marca;
-
-    @Column
-    private String tipoVehiculo;
-
+    //@Column
+    //private String tipoVehiculo;
     @Column
     private String color;
 
@@ -42,13 +40,14 @@ public class Vehiculo {
     @Column
     private Boolean estado;
 
+    @Column 
     @Enumerated(EnumType.STRING)
-    private TipoDeVehiculo tipodDeVehiculo;
+    private TipoDeVehiculo tipoDeVehiculo;
 
     @OneToOne
-    @JoinColumn(name = "dni")
+    @JoinColumn(name = "id_Conductor", referencedColumnName = "id")
     private Conductor conductor;
-
+    
     public enum TipoDeVehiculo {
         X,
         LUXE,
@@ -58,15 +57,18 @@ public class Vehiculo {
     public Vehiculo() {
     }
 
-    public Vehiculo(String patente, String modelo, String marca, String tipoVehiculo, String color,
-                    Integer asientos, Boolean estado) {
+    
+    public Vehiculo(String patente, String modelo, String marca, TipoDeVehiculo tipoDeVehiculo, String color,
+            Integer asientos, Boolean estado) {
+        //this.id = id;
         this.patente = patente;
         this.modelo = modelo;
         this.marca = marca;
-        this.tipoVehiculo = tipoVehiculo;
+        this.tipoDeVehiculo = tipoDeVehiculo;
         this.color = color;
         this.asientos = asientos;
         this.estado = estado;
+        //this.conductor = conductor;
     }
 
     public String getPatente() {
@@ -93,12 +95,16 @@ public class Vehiculo {
         this.marca = marca;
     }
 
-    public String getTipoVehiculo() {
-        return tipoVehiculo;
+
+
+    public TipoDeVehiculo getTipoDeVehiculo() {
+        return tipoDeVehiculo;
     }
 
-    public void setTipoVehiculo(String tipoVehiculo) {
-        this.tipoVehiculo = tipoVehiculo;
+
+
+    public void setTipoDeVehiculo(TipoDeVehiculo tipoDeVehiculo) {
+        this.tipoDeVehiculo = tipoDeVehiculo;
     }
 
     public String getColor() {
@@ -124,5 +130,17 @@ public class Vehiculo {
     public void setEstado(Boolean estado) {
         this.estado = estado;
     }
+
+
+
+   public Conductor getConductor() {
+       return conductor;
+    }
+
+
+    public void setConductor(Conductor conductor) {
+      this.conductor = conductor;
+    }
+
 
 }

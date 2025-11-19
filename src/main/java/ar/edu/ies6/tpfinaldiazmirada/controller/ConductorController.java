@@ -43,20 +43,23 @@ public class ConductorController {
 
             modelAndView.setViewName("conductor");
             modelAndView.addObject("nuevoConductor", conductorParaGuardar);
+
+            modelAndView.addObject("incorrecto", " No se pudo Guardar el Conductor. ");
+            System.out.println("NO PASA - Conductor");
         } else {
 
             try {
                 conductorService.agregarConductor(conductorParaGuardar);
                 modelAndView.setViewName("listaConductores");
 
-                modelAndView.addObject("correcto", "fue unexito");
+                modelAndView.addObject("correcto", " El Conductor se Guardo con exito.");
 
             } catch (Exception e) {
-                modelAndView.addObject("incorrecto", "maaal" + e.getMessage());
+                modelAndView.addObject("incorrectoS", "El Conductor no se Guardo" + e.getMessage());
             }
 
-            modelAndView.addObject("lista", conductorService.listarTodosConductoresActivos());
-            System.out.println("estoy saliendo");
+            modelAndView.addObject("clista", conductorService.listarTodosConductoresActivos());
+            System.out.println("estoy saliendo - Conductor");
             
         }
 
@@ -67,20 +70,20 @@ public class ConductorController {
 
 
 
-    @GetMapping("/eliminarConductor/{dni}")
-    public ModelAndView eliminarConductor(@PathVariable("dni") String dni) throws Exception {
+    @GetMapping("/eliminarConductor/{id}")
+    public ModelAndView eliminarConductor(@PathVariable("id") Integer id) throws Exception {
         ModelAndView eliminarConductor = new ModelAndView("listaConductores");
-        conductorService.borrarConductor(dni);
-        eliminarConductor.addObject("lista", conductorService.listarTodosConductoresActivos());
+        conductorService.borrarConductor(id);
+        eliminarConductor.addObject("clista", conductorService.listarTodosConductoresActivos());
 
         return eliminarConductor;
     } 
 
 
-    @GetMapping("/modificarConductor/{dni}")
-    public ModelAndView buscarConductorParaModificar(@PathVariable("dni") String dni) throws Exception{
+    @GetMapping("/modificarConductor/{id}")
+    public ModelAndView buscarConductorParaModificar(@PathVariable("id") Integer id) throws Exception{
         ModelAndView carritoParaModificarConductor = new ModelAndView("conductor");
-        carritoParaModificarConductor.addObject("nuevoConductor", conductorService.buscarUnConductor(dni));
+        carritoParaModificarConductor.addObject("nuevoConductor", conductorService.buscarUnConductor(id));
         carritoParaModificarConductor.addObject("band", true);
 
         return carritoParaModificarConductor;
@@ -89,9 +92,9 @@ public class ConductorController {
 
     @PostMapping("/modificarConductor")
     public ModelAndView modificarConductor(@ModelAttribute("nuevoConductor") Conductor conductorModificado) {
-        ModelAndView listadoEditado = new ModelAndView("listaConductor");
+        ModelAndView listadoEditado = new ModelAndView("listaConductores");
         conductorService.agregarConductor(conductorModificado);
-        listadoEditado.addObject("lista", conductorService.listarTodosConductoresActivos());
+        listadoEditado.addObject("clista", conductorService.listarTodosConductoresActivos());
 
         
         return listadoEditado;
@@ -101,9 +104,14 @@ public class ConductorController {
     @GetMapping("/listarConductores")
     public ModelAndView listarConductoresActivos() {
         ModelAndView carritoParaMostrarConductores = new ModelAndView("listaConductores");
-        carritoParaMostrarConductores.addObject("lista", conductorService.listarTodosConductoresActivos());
+        carritoParaMostrarConductores.addObject("clista", conductorService.listarTodosConductoresActivos());
 
         return carritoParaMostrarConductores;
     }
 
+
+    @GetMapping("/index")
+    public String getIndex() {
+        return "index";
+    }
 }

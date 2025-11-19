@@ -20,7 +20,7 @@ public class ConductorServiceImpBD implements ConductorService {
     ConductorRepository conductorRepository;
 
     @Override
-    public void borrarConductor(String id) throws Exception {
+    public void borrarConductor(Integer id) throws Exception {
         //alumnoRepository.deleteById(dni);
         Conductor conductorBorrar = conductorRepository.findById(id).orElseThrow(()-> new Exception("conductor no encontrado"));
         conductorBorrar.setEstado(false);
@@ -45,8 +45,9 @@ public class ConductorServiceImpBD implements ConductorService {
     }
 
     @Override
-    public Conductor buscarUnConductor(String id) throws Exception {
+    public Conductor buscarUnConductor(Integer id) throws Exception {
         return conductorRepository.findById(id).orElseThrow(()-> new Exception("Conductor no encontrado"));
+        
     }
 
     @Override

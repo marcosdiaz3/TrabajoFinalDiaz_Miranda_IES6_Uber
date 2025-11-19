@@ -12,61 +12,71 @@
 
 <body>
 
-    <header>
-        <nav id="navbar">
-            <img src="https://i.imgur.com/5b9KdhP.png" alt="Logo" class="logo">
-            <a href="/">Inicio</a>
-            <a href="">Usuarios </a>
-            <a href="/vehiculo" target="_blank" class="boton-enlace">Registro de Vehiculos</a>
-
-        </nav>
-    </header>
-
-
+    <div data-th-replace="~{layout :: header}"></div>
     <main>
 
         <div class="container mt-5">
+
+            <div data-th-if="${incorrecto}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <strong>ERROR.</strong>
+                <span th:text="${incorrecto}"></span>
+                Inténtelo nuevamente.
+                <!--<strong>ERROR</strong> No se pudo guardar el conductor/vehículo. Inténtelo nuevamente.-->
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <h2 class="text-white fw-bold text-center">
-                <i class="bi bi-person-circle"></i> REGISTRAR Conductor
+                <i class="bi bi-person-circle"></i> REGISTRAR CONDUCTOR
             </h2>
             <hr>
             <div class="card shadow p-4">
 
-                <form data-th-object="${nuevoConductor}" data-th-action="${band}?@{/modificarConductor}:@{/guardarConductor}"
-                    method="post" enctype="multipart/form-data">
+                <form data-th-object="${nuevoConductor}"
+                    data-th-action="${band}?@{/modificarConductor}:@{/guardarConductor}" method="post"
+                    enctype="multipart/form-data">
+
+                    <input type="hidden" th:field="*{id}" />
+
+
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" id="nombre" name="nombre" class="form-control"
-                            placeholder="Ingrese el nombre el vehiculo" data-th-field="*{nombre}" minlength="5"
-                            maxlength="20" />
+                            placeholder="Ingrese su nombre completo" data-th-field="*{nombre}" minlength="4"
+                            maxlength="20" required pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo letras y espacios" />
                     </div>
+
                     <div class="mb-3">
                         <label for="apellido" class="form-label">Apellido</label>
                         <input type="text" id="apellido" name="apellido" class="form-control"
-                            placeholder="Ingrese la apellido del veiculo" data-th-field="*{apellido}" required>
+                            placeholder="Ingrese su apellido completo" data-th-field="*{apellido}" required
+                            pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo letras y espacios">
                     </div>
+
                     <span data-th-if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"
                         class="text-danger">error apellido</span>
 
                     <div class="mb-3">
                         <label for="telefono" class="form-label">Telefono</label>
                         <input type="text" id="telefono" name="telefono" class="form-control"
-                            data-th-field="*{telefono}">
+                            placeholder="Ingrese su numero de Telefono" data-th-field="*{telefono}"
+                            pattern="[0-9]{10,15}" title="Debe contener entre 10 y 15 números">
                     </div>
 
                     <div class="mb-3">
                         <label for="edad" class="form-label">Edad</label>
                         <input type="number" id="edad" name="edad" class="form-control" placeholder="Ingrese su edad"
-                            data-th-field="*{edad}" required data-th-readonly="${band}" />
+                            min="18" max="60" data-th-field="*{edad}" required data-th-readonly="${band}" />
                     </div>
 
                     <div class="mb-3">
                         <label for="dni" class="form-label">DNI</label>
-                        <input type="text" id="dni" name="dni" class="form-select"
-                            placeholder="Ingrese el nro de asientos disponibles" data-th-field="*{dni}">
+                        <input type="text" id="dni" name="dni" class="form-control"
+                            placeholder="Ingrese su DNI sin puntos" data-th-field="*{dni}" minlength="7" maxlength="8"
+                            title="Debe contener solo números">
                     </div>
-                    
-                    <button type="submit" class="btn btn-primary" th:text="${band} ? 'modificar' : 'ingresar'"></button>
+
+                    <button type="submit" class="btn btn-primary" th:text="${band} ? 'modificar' : 'Ingresar'"></button>
                     <a href="/" class="btn btn-secondary">Volver</a>
                 </form>
 

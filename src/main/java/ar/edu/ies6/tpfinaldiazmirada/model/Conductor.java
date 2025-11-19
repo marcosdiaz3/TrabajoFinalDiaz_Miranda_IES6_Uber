@@ -4,14 +4,26 @@ import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Component
 @Entity
 public class Conductor {
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column
+    @NotBlank(message="dni es requerido")
+    @NotNull(message="dni is required")
+    @Size(min = 4, max = 8, message="dni is requiredo")
     private String dni;
     @Column
     private String nombre;
@@ -30,7 +42,9 @@ public class Conductor {
     public Conductor() {
     }
 
-    public Conductor(String dni, String nombre, String apellido, Integer edad, String telefono, Boolean estado) {
+    
+    public Conductor(Integer id, String dni, String nombre, String apellido, Integer edad, String telefono, Boolean estado) {
+        this.id = id;
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -38,7 +52,19 @@ public class Conductor {
         this.telefono = telefono;
         this.estado = estado;
     }
+    
+    
+    public Integer getId() {
+        return id;
+    }
 
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    
+    
     public String getDni() {
         return dni;
     }
