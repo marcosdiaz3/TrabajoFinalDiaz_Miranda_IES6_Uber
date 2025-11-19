@@ -1,29 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIAJE</title>
 </head>
 <body>
-    <div class= "conteiner">
-    <form data-th-object="${/nuevaMateria}"
-    th:action="@{'/guardarMateria'}" method="post">
 
-    <div class="mb-e">
-        <label class="form-label">Vehiculos </label> 
-        <input type="number"> data-th-field= "{vehiculos.patente}">
+<div class="container">
 
-         <label class="form-label">Usuarios </label> 
-         <select th:field="{*id}" class="form-control" required>
-        <option value="">seleccionar usuario...</option>
-        <option th:each="usuario:${lista}" th value="${usuario.dni}"
-        th:text="${usuario.nombre + ' ' + usuario.apellido}" ></option>
-        
+    <form th:object="${nuevoViaje}" th:action="@{/guardarViaje}" method="post">
+
+        <!-- TIPO DE VIAJE -->
+        <label>Tipo de Viaje</label>
+        <select th:field="*{tipViaje}" class="form-control" required>
+            <option value="">Seleccionar tipo...</option>
+            <option value="CORTO">Corto</option>
+            <option value="MEDIO">Medio</option>
+            <option value="LARGO">Largo</option>
         </select>
-    </div>
-    <button typo=" submit" class="btn btn-primary">ENVIAR</button> 
-</form>
- </div>
-</body>
-</html>
+
+        <br>
+
+        <!-- USUARIO -->
+        <label>Usuarios</label>
+        <select th:field="*{usuario.dni}" class="form-control" required>
+            <option value="">Seleccionar usuario...</option>
+            <option th:each="usuario : ${lista}"
+                    th:value="${usuario.dni}"
+                    th:text="${usuario.nombre + ' ' + usuario.apellido}">
+            </option>
